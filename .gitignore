@@ -2,4 +2,3 @@ log/
 chef-log.txt
 Requirements.txt
 .vagrant/
-hosts.yml

@@ -20,4 +20,4 @@ This programs aim is to to allow you to collect a series of logs from remote hos
 
 ## Licence
 
-## Aacknowledgements
+## Acknowledgements
