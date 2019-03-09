@@ -14,7 +14,6 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// go run main.go --stderrthreshold=INFO --log_dir=.
 var defaultPassphase = encryption.Passphrase
 var hostsFileFlag *string
 var encryptPassFlag *string

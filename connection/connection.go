@@ -33,16 +33,14 @@ func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port
 
 }
 
-func copyFile(srcPath, destPath, filename string, client *ssh.Client) {
+func copyFile(localPath, remotePath, filename string, client *ssh.Client) {
 	address := client.RemoteAddr()
 
-	destPath = destPath + address.String() + "/"
+	remotePath = remotePath + address.String() + "/"
+	if _, err := os.Stat(remotePath); os.IsNotExist(err) {
+		log.Info("Making Logging Directory ", remotePath)
 
-	if _, err := os.Stat(destPath); os.IsNotExist(err) {
-		os.MkdirAll(destPath, os.ModePerm)
-
-		log.Info("Making Logging Directory ", destPath)
-
+		os.MkdirAll(remotePath, os.ModePerm)
 	}
 
 	sftp, err := sftp.NewClient(client)
@@ -51,23 +49,38 @@ func copyFile(srcPath, destPath, filename string, client *ssh.Client) {
 	}
 	defer sftp.Close()
 
-	srcFile, err := sftp.Open(srcPath + filename)
+	srcFile, err := sftp.Open(localPath + filename)
 	if err != nil {
 		log.Fatal("Unable to open log file on the remote host")
 	}
 
 	defer srcFile.Close()
 
-	dstFile, err := os.Create(destPath + filename)
+	dstFile, err := os.Create(remotePath + filename)
 	if err != nil {
 		log.Fatal("Unable to close log file on the remote host")
 
 	}
 
 	defer dstFile.Close()
-
+	log.Info("Writing log to ", remotePath)
 	srcFile.WriteTo(dstFile)
-	log.Info("Writing log to", destPath, "complete")
+
+	srcStat, srcErr := srcFile.Stat()
+	dstStat, dstErr := dstFile.Stat()
+	if srcErr != nil || dstErr != nil {
+		log.Fatal("Error getting information on remote file ", srcErr)
+	}
+
+	if srcErr != nil || dstErr != nil {
+		log.Fatal("Error getting information on local file ", dstFile)
+	}
+
+	if srcStat.Size() != dstStat.Size() {
+		log.Fatal("File sizes do not match after transfer")
+	}
+
+	log.Info("Writing log to ", remotePath, " complete")
 }
 
 func connect(host, user, password, port string) (*ssh.Client, error) {

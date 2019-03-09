@@ -39,6 +39,8 @@ Vagrant.configure("2") do |config|
     touch /home/vagrant/chef-log.txt
     echo "generating random 1gb size file"
     dd if=/dev/urandom of=example-log.txt bs=1048576 count=1024
+    
+    echo "generating random 2gb size file"
     dd if=/dev/urandom of=example-log-2.txt bs=1048576 count=2048
     rm -rf ~/.ssh/known_hosts
   SHELL
