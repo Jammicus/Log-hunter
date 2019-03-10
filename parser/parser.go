@@ -20,6 +20,7 @@ type defaultInfo struct {
 	LogLocation       string `yaml:"logLocation"`
 	DownloadDirectory string `yaml:"downloadDirectory"`
 	LogName           string `yaml:"logName"`
+	DeleteLog         string `yaml:"deleteLog"`
 }
 
 type nodeInfo struct {
@@ -32,6 +33,7 @@ type nodeInfo struct {
 	LogLocation       string `yaml:"logLocation"`
 	DownloadDirectory string `yaml:"downloadDirectory"`
 	LogName           string `yaml:"logName"`
+	DeleteLog         string `yaml:"deleteLog"`
 }
 
 type Node struct {
@@ -43,6 +45,7 @@ type Node struct {
 	LogLocation       string
 	DownloadDirectory string
 	LogName           string
+	DeleteLog         string
 }
 
 func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
@@ -54,6 +57,7 @@ func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
 		LogLocation:       isDefault(defaultList.LogLocation, nonDefaultList.LogLocation),
 		DownloadDirectory: isDefault(defaultList.DownloadDirectory, nonDefaultList.DownloadDirectory),
 		LogName:           isDefault(defaultList.LogName, nonDefaultList.LogName),
+		DeleteLog:         isDefault(defaultList.DeleteLog, nonDefaultList.DeleteLog),
 	}
 
 	return node

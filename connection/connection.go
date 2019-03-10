@@ -3,6 +3,7 @@ package connection
 import (
 	"errors"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/pkg/sftp"
@@ -11,7 +12,8 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port string) {
+// GetLog establishes the connection to the remote server and copys the log file to the local machine
+func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port, deleteLog string) {
 
 	log.Info("######Connection Information ##############", "\n",
 		"Host = "+host, "\n",
@@ -29,19 +31,12 @@ func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port
 	}
 	defer client.Close()
 
-	copyFile(logLocation, downloadDirectory, fileName, client)
+	copyFile(logLocation, downloadDirectory, fileName, deleteLog, client)
 
 }
 
-func copyFile(localPath, remotePath, filename string, client *ssh.Client) {
+func copyFile(logLocation, downloadDirectory, filename, deleteLog string, client *ssh.Client) {
 	address := client.RemoteAddr()
-
-	remotePath = remotePath + address.String() + "/"
-	if _, err := os.Stat(remotePath); os.IsNotExist(err) {
-		log.Info("Making Logging Directory ", remotePath)
-
-		os.MkdirAll(remotePath, os.ModePerm)
-	}
 
 	sftp, err := sftp.NewClient(client)
 	if err != nil {
@@ -49,38 +44,69 @@ func copyFile(localPath, remotePath, filename string, client *ssh.Client) {
 	}
 	defer sftp.Close()
 
-	srcFile, err := sftp.Open(localPath + filename)
+	remoteLog, err := sftp.Open(logLocation + filename)
 	if err != nil {
 		log.Fatal("Unable to open log file on the remote host")
 	}
 
-	defer srcFile.Close()
+	defer remoteLog.Close()
 
-	dstFile, err := os.Create(remotePath + filename)
+	localLog, err := os.Create(makeDownloadDirectory(downloadDirectory, address.String()) + filename)
 	if err != nil {
 		log.Fatal("Unable to close log file on the remote host")
 
 	}
 
-	defer dstFile.Close()
-	log.Info("Writing log to ", remotePath)
-	srcFile.WriteTo(dstFile)
+	defer localLog.Close()
+	log.Info("Writing log to ", localLog.Name())
+	remoteLog.WriteTo(localLog)
 
-	srcStat, srcErr := srcFile.Stat()
-	dstStat, dstErr := dstFile.Stat()
-	if srcErr != nil || dstErr != nil {
-		log.Fatal("Error getting information on remote file ", srcErr)
+	rStat, rErr := remoteLog.Stat()
+	lStat, lErr := localLog.Stat()
+	if rErr != nil {
+		log.Fatal("Error getting information on remote file", rErr)
 	}
 
-	if srcErr != nil || dstErr != nil {
-		log.Fatal("Error getting information on local file ", dstFile)
+	if lErr != nil {
+		log.Fatal("Error getting information on local file ", localLog)
 	}
 
-	if srcStat.Size() != dstStat.Size() {
+	if rStat.Size() != lStat.Size() {
 		log.Fatal("File sizes do not match after transfer")
 	}
 
-	log.Info("Writing log to ", remotePath, " complete")
+	if deleteLog == "true" {
+		err := removeRemoteLog(remoteLog.Name(), sftp)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	log.Info("Writing log to ", localLog.Name(), " complete")
+}
+
+func makeDownloadDirectory(downloadDirectory, address string) string {
+
+	downloadDirectory = downloadDirectory + strings.Split(address, ":")[0] + "/"
+	if _, err := os.Stat(downloadDirectory); !os.IsNotExist(err) {
+		log.Info("Download directory " + downloadDirectory + " already exists, doing nothing")
+		return downloadDirectory
+	}
+
+	log.Info("Making download directory :" + downloadDirectory + " directory ")
+
+	os.MkdirAll(downloadDirectory, os.ModePerm)
+
+	return downloadDirectory
+}
+
+func removeRemoteLog(logLocation string, client *sftp.Client) error {
+	err := client.Remove(logLocation)
+	if err != nil {
+		return errors.New("Unable to delete remote file " + logLocation)
+	}
+	log.Info("Deleted remote log" + logLocation)
+	return nil
 }
 
 func connect(host, user, password, port string) (*ssh.Client, error) {

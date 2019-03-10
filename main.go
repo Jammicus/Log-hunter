@@ -44,7 +44,7 @@ func main() {
 	for e, _ := range nodes {
 
 		go func(e int) {
-			connection.GetLog(nodes[e].Host, nodes[e].Username, nodes[e].Password, nodes[e].LogLocation, nodes[e].DownloadDirectory, nodes[e].LogName, nodes[e].Port)
+			connection.GetLog(nodes[e].Host, nodes[e].Username, nodes[e].Password, nodes[e].LogLocation, nodes[e].DownloadDirectory, nodes[e].LogName, nodes[e].Port, nodes[e].DeleteLog)
 			waitGroup.Done()
 		}(e)
 	}
