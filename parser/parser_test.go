@@ -609,6 +609,7 @@ func TestGetNode(t *testing.T) {
 			"defaultLog.log",
 			"",
 		},
+		// overriden deletelog
 		defaultInfo{
 			"",
 			"",
@@ -618,10 +619,9 @@ func TestGetNode(t *testing.T) {
 			"",
 			"false",
 		},
-		// overriden deletelog
 	}
 
-	for i, _ := range expectedCases {
+	for i := range expectedCases {
 		encryption.Passphrase = "z4yH36a6zerhfE5427ZV"
 
 		if item := getNode(defaultConfigCases[i], nodeConfigCases[i]); item != expectedCases[i] {
@@ -632,4 +632,26 @@ func TestGetNode(t *testing.T) {
 		}
 	}
 
+}
+
+func TestParseSize(t *testing.T) {
+	var testcases = []struct {
+		file               string
+		numOfNodesExpected int
+	}{
+		{"testData/noDefault/example1.yml", 1},
+		{"testData/noDefault/example5.yml", 5},
+		{"testData/noDefault/example10.yml", 10},
+		{"testData/default/example1.yml", 1},
+		{"testData/default/example5.yml", 5},
+		{"testData/default/example10.yml", 10},
+	}
+
+	for _, test := range testcases {
+		if item := Parse(test.file); len(item) != test.numOfNodesExpected {
+			t.Error("Returned array of nodes is not the expected size" + "\n" +
+				"Returned: " + string(len(item)) + "\n" +
+				"expected: " + string(test.numOfNodesExpected))
+		}
+	}
 }

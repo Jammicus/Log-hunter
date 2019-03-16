@@ -1,0 +1,69 @@
+defaults:
+  - username: test
+    connection: ssh
+    logLocation: "/home/test/"
+    downloadDirectory: "example-logs/"
+    port: 22
+    logName: test.txt
+
+nodes:
+  - hostname: "192.168.33.10"
+    username: vagrant
+    password: vagrant
+    port: 20
+    logLocation: /home/vagrant/
+    connection: ssh
+  - hostname: "192.168.33.11"
+    username: vagrant1
+    password: vagrant1
+    port: 21
+    logLocation: /home/vagrant/1
+    connection: ssh1    
+  - hostname: "192.168.33.12"
+    username: vagrant2
+    password: vagrant2
+    port: 22
+    logLocation: /home/vagrant/2
+    connection: ssh2
+  - hostname: "192.168.33.13"
+    username: vagrant3
+    password: vagrant3
+    port: 232
+    logLocation: /home/vagrant/3
+    connection: ssh3
+  - hostname: "192.168.33.14"
+    username: vagrant4
+    password: vagrant4
+    port: 24
+    logLocation: /home/vagrant/4
+    connection: ssh4
+  - hostname: "192.168.33.15"
+    username: vagrant5
+    password: vagrant5
+    port: 25
+    logLocation: /home/vagrant/5
+    connection: ssh5
+  - hostname: "192.168.33.16"
+    username: vagrant6
+    password: vagrant6
+    port: 26
+    logLocation: /home/vagrant/6
+    connection: ssh6
+  - hostname: "192.168.33.17"
+    username: vagrant7
+    password: vagrant7
+    port: 27
+    logLocation: /home/vagrant/7
+    connection: ssh7
+  - hostname: "192.168.33.18"
+    username: vagrant8
+    password: vagrant8
+    port: 28
+    logLocation: /home/vagrant/8
+    connection: ssh8
+  - hostname: "192.168.33.19"
+    username: vagrant9
+    password: vagrant9
+    port: 29
+    logLocation: /home/vagrant/
+    connection: ssh9    

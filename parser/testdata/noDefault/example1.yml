@@ -1,0 +1,7 @@
+nodes:
+  - hostname: "192.168.33.10"
+    username: vagrant
+    password: vagrant
+    port: 22
+    logLocation: /home/vagrant/
+    connection: ssh

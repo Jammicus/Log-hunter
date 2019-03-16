@@ -1,0 +1,40 @@
+defaults:
+  - username: test
+    connection: ssh
+    logLocation: "/home/test/"
+    downloadDirectory: "example-logs/"
+    port: 22
+    logName: test.txt
+
+
+nodes:
+  - hostname: "192.168.33.10"
+    username: vagrant
+    password: vagrant
+    port: 20
+    logLocation: /home/vagrant/
+    connection: ssh
+  - hostname: "192.168.33.11"
+    username: vagrant1
+    password: vagrant1
+    port: 21
+    logLocation: /home/vagrant/1
+    connection: ssh1    
+  - hostname: "192.168.33.12"
+    username: vagrant2
+    password: vagrant2
+    port: 22
+    logLocation: /home/vagrant/2
+    connection: ssh2
+  - hostname: "192.168.33.13"
+    username: vagrant3
+    password: vagrant3
+    port: 232
+    logLocation: /home/vagrant/3
+    connection: ssh3
+  - hostname: "192.168.33.14"
+    username: vagrant4
+    password: vagrant4
+    port: 24
+    logLocation: /home/vagrant/4
+    connection: ssh4

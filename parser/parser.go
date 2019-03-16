@@ -89,7 +89,6 @@ func Parse(hostFile string) []Node {
 	defer f.Close()
 
 	dec := yaml.NewDecoder(f)
-
 	var config config
 	err = dec.Decode(&config)
 	if err != nil {
@@ -101,7 +100,11 @@ func Parse(hostFile string) []Node {
 	nodes := make([]Node, len(config.Nodes))
 
 	for j := 0; j < len(config.Nodes); j++ {
-		// Assume only ever 1 default block in hosts.yml
+		if len(config.Defaults) == 0 {
+			nodes[j] = getNode(defaultInfo{}, config.Nodes[j])
+			break
+		}
+		// Assume only ever 1 default block if defaults are present.
 		nodes[j] = getNode(config.Defaults[0], config.Nodes[j])
 	}
 

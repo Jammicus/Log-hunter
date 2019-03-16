@@ -1,0 +1,15 @@
+defaults:
+  - username: test
+    connection: ssh
+    logLocation: "/home/test/"
+    downloadDirectory: "example-logs/"
+    port: 22
+    logName: test.txt
+
+nodes:
+  - hostname: "192.168.33.10"
+    username: vagrant
+    password: vagrant
+    port: 22
+    logLocation: /home/vagrant/
+    connection: ssh
