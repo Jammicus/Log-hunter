@@ -25,6 +25,10 @@ func main() {
 	logrus.SetFormatter(customFormatter)
 	customFormatter.FullTimestamp = true
 
+	if encryption.Passphrase == defaultPassphase {
+		log.Warn("Warning - Using default passphase. It is advised that you use your own custom passphrase")
+	}
+
 	if *encryptPassFlag != "" {
 		s := strings.Split(*encryptPassFlag, ":")
 		encryption.Passphrase = s[0]
@@ -33,9 +37,6 @@ func main() {
 	}
 
 	nodes := parser.Parse(*hostsFileFlag)
-	if encryption.Passphrase == defaultPassphase {
-		log.Warn("Warning - Using default passphase. It is advised that you use your own custom passphrase")
-	}
 
 	log.Info("Getting information on hosts from:", *hostsFileFlag)
 
