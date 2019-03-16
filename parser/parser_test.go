@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"log-hunter/encryption"
 	"testing"
 )
 
@@ -59,20 +60,576 @@ func TestParse(t *testing.T) {
 	}
 }
 
-// func TestGetNode(t *testing.T) {
-// 	var testcases = []Node {
-// 		encrypted    string
-// 		nonEncrypted string
-// 		expected     string
-// 	}{
-// 		{"", "exAmpLePassWord", "exAmpLePassWord"},
-// 		{"U2FsdGVkX19YalVZkD9ulTLrymqTjqat8MajHbz9+go=", "", "password"},
-// 		{"", "", ""},
-// 	}
+func TestGetNode(t *testing.T) {
 
-// 	for _, test := range testcases {
-// 		if item := passwordHandler(test.encrypted, test.nonEncrypted); item != test.expected {
-// 			t.Errorf("getDefault(%v) = %v", test.encrypted, test.nonEncrypted)
-// 		}
-// 	}
-// }
+	var expectedCases = []Node{
+		// Empty
+		Node{},
+		// Non encrypted password
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// Encrypted Password
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default username
+		Node{
+			"testHost",
+			"defaultUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default port
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"33",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default connection
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"defaultConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default log location
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"/tmp/defaultLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default download directory
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"home/james/downloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default log name
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"defaultLog.log",
+			"true",
+		},
+		// default deletelog
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"false",
+		},
+		// overriden username
+		Node{
+			"testHost",
+			"overridenName",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overidden port
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"5555",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overriden connection
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"overridenConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overriden log location
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"over/ridden/directory",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overridden download directory
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/overrides/directory",
+			"testLog.name",
+			"true",
+		},
+		// overriden log name
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"overridenLog.overrides",
+			"true",
+		},
+		// overriden deletelog
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+	}
+
+	var nodeConfigCases = []nodeInfo{
+		// Empty
+		nodeInfo{},
+		// Non encrypted password
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// Encrypted Password
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"",
+			"U2FsdGVkX1+PVwxRcRmy3OKS3XYfxr06bRUdeYHqmpw=",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default username
+		nodeInfo{
+			"testHost",
+			"",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default port
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default connection
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default log location
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// default download directory
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"",
+			"testLog.name",
+			"true",
+		},
+		// default log name
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"",
+			"true",
+		},
+		// default deletelog
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"",
+		},
+		// overriden username
+		nodeInfo{
+			"testHost",
+			"overridenName",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overidden port
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"",
+			"U2FsdGVkX1+PVwxRcRmy3OKS3XYfxr06bRUdeYHqmpw=",
+			"5555",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overriden connection
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"overridenConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overriden log location
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"over/ridden/directory",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+		// overridden download directory
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/overrides/directory",
+			"testLog.name",
+			"true",
+		},
+		// overriden log name
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"overridenLog.overrides",
+			"true",
+		},
+		// overriden deletelog
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+		},
+	}
+
+	var defaultConfigCases = []defaultInfo{
+		// empty
+		defaultInfo{},
+		// non encrypted password
+		defaultInfo{},
+		// Encrypted Password
+		defaultInfo{},
+		// default username
+		defaultInfo{
+			"defaultUser",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+		},
+		// default port
+		defaultInfo{
+			"",
+			"33",
+			"",
+			"",
+			"",
+			"",
+			"",
+		},
+		// default connection
+		defaultInfo{
+			"",
+			"",
+			"defaultConnection",
+			"",
+			"",
+			"",
+			"",
+		},
+		// default log location
+		defaultInfo{
+			"",
+			"",
+			"",
+			"/tmp/defaultLogLocation",
+			"",
+			"",
+			"",
+		},
+		// default download directory
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"home/james/downloadDirectory",
+			"",
+			"",
+		},
+		// default log name
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"defaultLog.log",
+			"",
+		},
+		// default deletelog
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"false",
+		},
+		// overriden username
+		defaultInfo{
+			"defaultUser",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+		},
+		// overidden port
+		defaultInfo{
+			"",
+			"33",
+			"",
+			"",
+			"",
+			"",
+			"",
+		},
+		// overriden connection
+		defaultInfo{
+			"",
+			"",
+			"defaultConnection",
+			"",
+			"",
+			"",
+			"",
+		},
+		// overriden log location
+		defaultInfo{
+			"",
+			"",
+			"",
+			"home/james/downloadDirectory",
+			"",
+			"",
+			"",
+		},
+		// overridden download directory
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"home/james/downloadDirectory",
+			"",
+			"",
+		},
+		// overriden log name
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"defaultLog.log",
+			"",
+		},
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"false",
+		},
+		// overriden deletelog
+	}
+
+	for i, _ := range expectedCases {
+		encryption.Passphrase = "z4yH36a6zerhfE5427ZV"
+
+		if item := getNode(defaultConfigCases[i], nodeConfigCases[i]); item != expectedCases[i] {
+			t.Error("Result did not match expected", '\n',
+				"default config: ", defaultConfigCases[i], '\n',
+				"node config: ", nodeConfigCases[i], '\n',
+				"expected config:", expectedCases[i])
+		}
+	}
+
+}

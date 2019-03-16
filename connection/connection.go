@@ -85,6 +85,7 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog string, client
 	log.Info("Writing log to ", localLog.Name(), " complete")
 }
 
+// Relative to where the binary is ran.
 func makeDownloadDirectory(downloadDirectory, address string) string {
 
 	downloadDirectory = downloadDirectory + strings.Split(address, ":")[0] + "/"
@@ -93,7 +94,7 @@ func makeDownloadDirectory(downloadDirectory, address string) string {
 		return downloadDirectory
 	}
 
-	log.Info("Making download directory :" + downloadDirectory + " directory ")
+	log.Info("Making download directory: " + downloadDirectory + " directory ")
 
 	os.MkdirAll(downloadDirectory, os.ModePerm)
 

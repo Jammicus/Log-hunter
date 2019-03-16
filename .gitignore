@@ -2,3 +2,4 @@ log/
 chef-log.txt
 Requirements.txt
 .vagrant/
+test-resources/

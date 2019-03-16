@@ -25,7 +25,7 @@ func Encrypt(password string) string {
 	return string(enc)
 }
 
-// Decryped (string)
+// Decrypt(string)
 // Takes an encrypted string and decrypts it using the passphase.
 func Decrypt(encryptedPass string) string {
 	o := openssl.New()

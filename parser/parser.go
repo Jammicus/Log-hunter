@@ -50,7 +50,7 @@ type Node struct {
 
 func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
 	node := Node{Host: nonDefaultList.Host,
-		Username:          nonDefaultList.Username,
+		Username:          isDefault(defaultList.Username, nonDefaultList.Username),
 		Password:          passwordHandler(nonDefaultList.EncryptedPassword, nonDefaultList.Password),
 		Port:              isDefault(defaultList.Port, nonDefaultList.Port),
 		Connection:        isDefault(defaultList.Connection, nonDefaultList.Connection),
@@ -100,7 +100,7 @@ func Parse(hostFile string) []Node {
 
 	nodes := make([]Node, len(config.Nodes))
 
-	for j := 0; j <= len(config.Nodes)-1; j++ {
+	for j := 0; j < len(config.Nodes); j++ {
 		// Assume only ever 1 default block in hosts.yml
 		nodes[j] = getNode(config.Defaults[0], config.Nodes[j])
 	}
