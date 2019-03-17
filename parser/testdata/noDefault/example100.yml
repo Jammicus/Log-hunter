@@ -1,0 +1,602 @@
+nodes:
+  - hostname: "192.168.33.10"
+    username: vagrant0
+    password: vagrant0
+    port: 20
+    logLocation: /home/vagrant/0
+    connection: ssh0
+  - hostname: "192.168.33.11"
+    username: vagrant1
+    password: vagrant1
+    port: 21
+    logLocation: /home/vagrant/1
+    connection: ssh1    
+  - hostname: "192.168.33.12"
+    username: vagrant2
+    password: vagrant2
+    port: 22
+    logLocation: /home/vagrant/2
+    connection: ssh2
+  - hostname: "192.168.33.13"
+    username: vagrant3
+    password: vagrant3
+    port: 23
+    logLocation: /home/vagrant/3
+    connection: ssh3
+  - hostname: "192.168.33.14"
+    username: vagrant4
+    password: vagrant4
+    port: 24
+    logLocation: /home/vagrant/4
+    connection: ssh4
+  - hostname: "192.168.33.15"
+    username: vagrant5
+    password: vagrant5
+    port: 25
+    logLocation: /home/vagrant/5
+    connection: ssh5
+  - hostname: "192.168.33.16"
+    username: vagrant6
+    password: vagrant6
+    port: 26
+    logLocation: /home/vagrant/6
+    connection: ssh6
+  - hostname: "192.168.33.17"
+    username: vagrant7
+    password: vagrant7
+    port: 27
+    logLocation: /home/vagrant/7
+    connection: ssh7
+  - hostname: "192.168.33.18"
+    username: vagrant8
+    password: vagrant8
+    port: 28
+    logLocation: /home/vagrant/8
+    connection: ssh8
+  - hostname: "192.168.33.19"
+    username: vagrant9
+    password: vagrant9
+    port: 29
+    logLocation: /home/vagrant/9
+    connection: ssh9    
+  - hostname: "192.168.33.110"
+    username: vagrant10
+    password: vagrant10
+    port: 210
+    logLocation: /home/vagrant/10
+    connection: ssh10
+  - hostname: "192.168.33.111"
+    username: vagrant11
+    password: vagrant11
+    port: 211
+    logLocation: /home/vagrant/11
+    connection: ssh11    
+  - hostname: "192.168.33.112"
+    username: vagrant12
+    password: vagrant12
+    port: 212
+    logLocation: /home/vagrant/12
+    connection: ssh12
+  - hostname: "192.168.33.113"
+    username: vagrant13
+    password: vagrant13
+    port: 213
+    logLocation: /home/vagrant/13
+    connection: ssh13
+  - hostname: "192.168.33.114"
+    username: vagrant14
+    password: vagrant14
+    port: 214
+    logLocation: /home/vagrant/14
+    connection: ssh14
+  - hostname: "192.168.33.115"
+    username: vagrant15
+    password: vagrant15
+    port: 215
+    logLocation: /home/vagrant/15
+    connection: ssh15
+  - hostname: "192.168.33.116"
+    username: vagrant16
+    password: vagrant16
+    port: 216
+    logLocation: /home/vagrant/16
+    connection: ssh16
+  - hostname: "192.168.33.117"
+    username: vagrant17
+    password: vagrant17
+    port: 217
+    logLocation: /home/vagrant/17
+    connection: ssh17
+  - hostname: "192.168.33.118"
+    username: vagrant18
+    password: vagrant18
+    port: 218
+    logLocation: /home/vagrant/18
+    connection: ssh18
+  - hostname: "192.168.33.119"
+    username: vagrant19
+    password: vagrant19
+    port: 219
+    logLocation: /home/vagrant/19
+    connection: ssh19      
+
+  - hostname: "192.168.33.120"
+    username: vagrant20
+    password: vagrant20
+    port: 220
+    logLocation: /home/vagrant/20
+    connection: ssh20
+  - hostname: "192.168.33.121"
+    username: vagrant21
+    password: vagrant21
+    port: 221
+    logLocation: /home/vagrant/21
+    connection: ssh21    
+  - hostname: "192.168.33.122"
+    username: vagrant22
+    password: vagrant22
+    port: 222
+    logLocation: /home/vagrant/22
+    connection: ssh22
+  - hostname: "192.168.33.123"
+    username: vagrant23
+    password: vagrant23
+    port: 223
+    logLocation: /home/vagrant/23
+    connection: ssh23
+  - hostname: "192.168.33.124"
+    username: vagrant24
+    password: vagrant24
+    port: 224
+    logLocation: /home/vagrant/24
+    connection: ssh24
+  - hostname: "192.168.33.125"
+    username: vagrant25
+    password: vagrant25
+    port: 225
+    logLocation: /home/vagrant/25
+    connection: ssh25
+  - hostname: "192.168.33.126"
+    username: vagrant26
+    password: vagrant26
+    port: 226
+    logLocation: /home/vagrant/26
+    connection: ssh26
+  - hostname: "192.168.33.127"
+    username: vagrant27
+    password: vagrant27
+    port: 227
+    logLocation: /home/vagrant/27
+    connection: ssh27
+  - hostname: "192.168.33.128"
+    username: vagrant28
+    password: vagrant28
+    port: 228
+    logLocation: /home/vagrant/28
+    connection: ssh28
+  - hostname: "192.168.33.129"
+    username: vagrant29
+    password: vagrant29
+    port: 229
+    logLocation: /home/vagrant/29
+    connection: ssh29        
+  - hostname: "192.168.33.130"
+    username: vagrant30
+    password: vagrant30
+    port: 230
+    logLocation: /home/vagrant/30
+    connection: ssh30
+  - hostname: "192.168.33.131"
+    username: vagrant31
+    password: vagrant31
+    port: 231
+    logLocation: /home/vagrant/31
+    connection: ssh31    
+  - hostname: "192.168.33.132"
+    username: vagrant32
+    password: vagrant32
+    port: 232
+    logLocation: /home/vagrant/32
+    connection: ssh32
+  - hostname: "192.168.33.133"
+    username: vagrant33
+    password: vagrant33
+    port: 233
+    logLocation: /home/vagrant/33
+    connection: ssh33
+  - hostname: "192.168.33.134"
+    username: vagrant34
+    password: vagrant34
+    port: 234
+    logLocation: /home/vagrant/34
+    connection: ssh34
+  - hostname: "192.168.33.135"
+    username: vagrant35
+    password: vagrant35
+    port: 235
+    logLocation: /home/vagrant/35
+    connection: ssh35
+  - hostname: "192.168.33.136"
+    username: vagrant36
+    password: vagrant36
+    port: 236
+    logLocation: /home/vagrant/36
+    connection: ssh36
+  - hostname: "192.168.33.137"
+    username: vagrant37
+    password: vagrant37
+    port: 237
+    logLocation: /home/vagrant/37
+    connection: ssh37
+  - hostname: "192.168.33.138"
+    username: vagrant38
+    password: vagrant38
+    port: 238
+    logLocation: /home/vagrant/38
+    connection: ssh38
+  - hostname: "192.168.33.139"
+    username: vagrant39
+    password: vagrant39
+    port: 239
+    logLocation: /home/vagrant/39
+    connection: ssh39      
+  - hostname: "192.168.33.140"
+    username: vagrant40
+    password: vagrant40
+    port: 240
+    logLocation: /home/vagrant/40
+    connection: ssh40
+  - hostname: "192.168.33.141"
+    username: vagrant41
+    password: vagrant41
+    port: 241
+    logLocation: /home/vagrant/41
+    connection: ssh41    
+  - hostname: "192.168.33.142"
+    username: vagrant42
+    password: vagrant42
+    port: 242
+    logLocation: /home/vagrant/42
+    connection: ssh42
+  - hostname: "192.168.33.143"
+    username: vagrant43
+    password: vagrant43
+    port: 243
+    logLocation: /home/vagrant/43
+    connection: ssh43
+  - hostname: "192.168.33.144"
+    username: vagrant44
+    password: vagrant44
+    port: 244
+    logLocation: /home/vagrant/44
+    connection: ssh44
+  - hostname: "192.168.33.145"
+    username: vagrant45
+    password: vagrant45
+    port: 245
+    logLocation: /home/vagrant/45
+    connection: ssh45
+  - hostname: "192.168.33.146"
+    username: vagrant46
+    password: vagrant46
+    port: 246
+    logLocation: /home/vagrant/46
+    connection: ssh46
+  - hostname: "192.168.33.147"
+    username: vagrant47
+    password: vagrant47
+    port: 247
+    logLocation: /home/vagrant/47
+    connection: ssh47
+  - hostname: "192.168.33.148"
+    username: vagrant48
+    password: vagrant48
+    port: 248
+    logLocation: /home/vagrant/48
+    connection: ssh48
+  - hostname: "192.168.33.149"
+    username: vagrant49
+    password: vagrant49
+    port: 249
+    logLocation: /home/vagrant/49
+    connection: ssh49       
+  - hostname: "192.168.33.120"
+    username: vagrant20
+    password: vagrant20
+    port: 220
+    logLocation: /home/vagrant/50
+    connection: ssh50
+  - hostname: "192.168.33.151"
+    username: vagrant51
+    password: vagrant51
+    port: 251
+    logLocation: /home/vagrant/51
+    connection: ssh51    
+  - hostname: "192.168.33.152"
+    username: vagrant52
+    password: vagrant52
+    port: 252
+    logLocation: /home/vagrant/52
+    connection: ssh52
+  - hostname: "192.168.33.153"
+    username: vagrant53
+    password: vagrant53
+    port: 253
+    logLocation: /home/vagrant/53
+    connection: ssh53
+  - hostname: "192.168.33.154"
+    username: vagrant54
+    password: vagrant54
+    port: 254
+    logLocation: /home/vagrant/54
+    connection: ssh54
+  - hostname: "192.168.33.155"
+    username: vagrant55
+    password: vagrant55
+    port: 255
+    logLocation: /home/vagrant/55
+    connection: ssh55
+  - hostname: "192.168.33.156"
+    username: vagrant56
+    password: vagrant56
+    port: 256
+    logLocation: /home/vagrant/56
+    connection: ssh56
+  - hostname: "192.168.33.157"
+    username: vagrant57
+    password: vagrant57
+    port: 257
+    logLocation: /home/vagrant/57
+    connection: ssh57
+  - hostname: "192.168.33.158"
+    username: vagrant58
+    password: vagrant58
+    port: 258
+    logLocation: /home/vagrant/58
+    connection: ssh58
+  - hostname: "192.168.33.159"
+    username: vagrant59
+    password: vagrant59
+    port: 259
+    logLocation: /home/vagrant/59
+    connection: ssh59        
+  - hostname: "192.168.33.160"
+    username: vagrant60
+    password: vagrant60
+    port: 260
+    logLocation: /home/vagrant/60
+    connection: ssh60
+  - hostname: "192.168.33.161"
+    username: vagrant61
+    password: vagrant61
+    port: 261
+    logLocation: /home/vagrant/61
+    connection: ssh61    
+  - hostname: "192.168.33.162"
+    username: vagrant62
+    password: vagrant62
+    port: 262
+    logLocation: /home/vagrant/62
+    connection: ssh62
+  - hostname: "192.168.33.163"
+    username: vagrant63
+    password: vagrant63
+    port: 263
+    logLocation: /home/vagrant/63
+    connection: ssh63
+  - hostname: "192.168.33.164"
+    username: vagrant64
+    password: vagrant64
+    port: 264
+    logLocation: /home/vagrant/64
+    connection: ssh64
+  - hostname: "192.168.33.165"
+    username: vagrant65
+    password: vagrant65
+    port: 265
+    logLocation: /home/vagrant/65
+    connection: ssh65
+  - hostname: "192.168.33.166"
+    username: vagrant66
+    password: vagrant66
+    port: 266
+    logLocation: /home/vagrant/66
+    connection: ssh66
+  - hostname: "192.168.33.167"
+    username: vagrant67
+    password: vagrant67
+    port: 267
+    logLocation: /home/vagrant/67
+    connection: ssh67
+  - hostname: "192.168.33.168"
+    username: vagrant68
+    password: vagrant68
+    port: 268
+    logLocation: /home/vagrant/68
+    connection: ssh68
+  - hostname: "192.168.33.169"
+    username: vagrant69
+    password: vagrant69
+    port: 269
+    logLocation: /home/vagrant/69
+    connection: ssh69      
+  - hostname: "192.168.33.170"
+    username: vagrant70
+    password: vagrant70
+    port: 270
+    logLocation: /home/vagrant/70
+    connection: ssh70
+  - hostname: "192.168.33.171"
+    username: vagrant71
+    password: vagrant71
+    port: 271
+    logLocation: /home/vagrant/71
+    connection: ssh71    
+  - hostname: "192.168.33.172"
+    username: vagrant72
+    password: vagrant72
+    port: 272
+    logLocation: /home/vagrant/72
+    connection: ssh72
+  - hostname: "192.168.33.173"
+    username: vagrant73
+    password: vagrant73
+    port: 273
+    logLocation: /home/vagrant/73
+    connection: ssh73
+  - hostname: "192.168.33.174"
+    username: vagrant74
+    password: vagrant74
+    port: 274
+    logLocation: /home/vagrant/74
+    connection: ssh74
+  - hostname: "192.168.33.175"
+    username: vagrant75
+    password: vagrant75
+    port: 275
+    logLocation: /home/vagrant/75
+    connection: ssh75
+  - hostname: "192.168.33.176"
+    username: vagrant76
+    password: vagrant76
+    port: 276
+    logLocation: /home/vagrant/76
+    connection: ssh76
+  - hostname: "192.168.33.177"
+    username: vagrant77
+    password: vagrant77
+    port: 277
+    logLocation: /home/vagrant/77
+    connection: ssh77
+  - hostname: "192.168.33.178"
+    username: vagrant78
+    password: vagrant78
+    port: 278
+    logLocation: /home/vagrant/78
+    connection: ssh78
+  - hostname: "192.168.33.179"
+    username: vagrant79
+    password: vagrant79
+    port: 279
+    logLocation: /home/vagrant/79
+    connection: ssh79    
+  - hostname: "192.168.33.180"
+    username: vagrant80
+    password: vagrant80
+    port: 280
+    logLocation: /home/vagrant/80
+    connection: ssh80
+  - hostname: "192.168.33.181"
+    username: vagrant81
+    password: vagrant81
+    port: 281
+    logLocation: /home/vagrant/81
+    connection: ssh81    
+  - hostname: "192.168.33.182"
+    username: vagrant82
+    password: vagrant82
+    port: 282
+    logLocation: /home/vagrant/82
+    connection: ssh82
+  - hostname: "192.168.33.183"
+    username: vagrant83
+    password: vagrant83
+    port: 283
+    logLocation: /home/vagrant/83
+    connection: ssh83
+  - hostname: "192.168.33.184"
+    username: vagrant84
+    password: vagrant84
+    port: 284
+    logLocation: /home/vagrant/84
+    connection: ssh84
+  - hostname: "192.168.33.185"
+    username: vagrant85
+    password: vagrant85
+    port: 285
+    logLocation: /home/vagrant/85
+    connection: ssh85
+  - hostname: "192.168.33.186"
+    username: vagrant86
+    password: vagrant86
+    port: 286
+    logLocation: /home/vagrant/86
+    connection: ssh86
+  - hostname: "192.168.33.187"
+    username: vagrant87
+    password: vagrant87
+    port: 287
+    logLocation: /home/vagrant/87
+    connection: ssh87
+  - hostname: "192.168.33.188"
+    username: vagrant88
+    password: vagrant88
+    port: 288
+    logLocation: /home/vagrant/88
+    connection: ssh88
+  - hostname: "192.168.33.189"
+    username: vagrant89
+    password: vagrant89
+    port: 289
+    logLocation: /home/vagrant/89
+    connection: ssh89       
+  - hostname: "192.168.33.190"
+    username: vagrant90
+    password: vagrant90
+    port: 290
+    logLocation: /home/vagrant/90
+    connection: ssh90
+  - hostname: "192.168.33.191"
+    username: vagrant91
+    password: vagrant91
+    port: 291
+    logLocation: /home/vagrant/91
+    connection: ssh91    
+  - hostname: "192.168.33.192"
+    username: vagrant92
+    password: vagrant92
+    port: 292
+    logLocation: /home/vagrant/92
+    connection: ssh92
+  - hostname: "192.168.33.193"
+    username: vagrant93
+    password: vagrant93
+    port: 293
+    logLocation: /home/vagrant/93
+    connection: ssh93
+  - hostname: "192.168.33.194"
+    username: vagrant94
+    password: vagrant94
+    port: 294
+    logLocation: /home/vagrant/94
+    connection: ssh94
+  - hostname: "192.168.33.195"
+    username: vagrant95
+    password: vagrant95
+    port: 295
+    logLocation: /home/vagrant/95
+    connection: ssh95
+  - hostname: "192.168.33.196"
+    username: vagrant96
+    password: vagrant96
+    port: 296
+    logLocation: /home/vagrant/96
+    connection: ssh96
+  - hostname: "192.168.33.197"
+    username: vagrant97
+    password: vagrant97
+    port: 297
+    logLocation: /home/vagrant/97
+    connection: ssh97
+  - hostname: "192.168.33.198"
+    username: vagrant98
+    password: vagrant98
+    port: 298
+    logLocation: /home/vagrant/98
+    connection: ssh98
+  - hostname: "192.168.33.199"
+    username: vagrant99
+    password: vagrant99
+    port: 299
+    logLocation: /home/vagrant/99
+    connection: ssh99        

@@ -42,7 +42,13 @@ go get gopkg.in/yaml.v2 github.com/sirupsen/logrus gopkg.in/Luzifer/go-openssl.v
 ## Running the Tests
 
 ```
-go go test ./encryption ./parser
+// Unit tests
+go test ./encryption ./parser
+// Benchmarks
+cd parser
+go test -run=x -bench=<testname>
+// Example:
+go test -run=100 -bench=BenchmarkDefault100
 ```
 
 ### Testing Locally using Vagrant

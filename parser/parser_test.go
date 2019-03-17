@@ -642,9 +642,11 @@ func TestParseSize(t *testing.T) {
 		{"testData/noDefault/example1.yml", 1},
 		{"testData/noDefault/example5.yml", 5},
 		{"testData/noDefault/example10.yml", 10},
+		{"testData/noDefault/example100.yml", 100},
 		{"testData/default/example1.yml", 1},
 		{"testData/default/example5.yml", 5},
 		{"testData/default/example10.yml", 10},
+		{"testData/default/example100.yml", 100},
 	}
 
 	for _, test := range testcases {
@@ -653,5 +655,54 @@ func TestParseSize(t *testing.T) {
 				"Returned: " + string(len(item)) + "\n" +
 				"expected: " + string(test.numOfNodesExpected))
 		}
+	}
+}
+
+//go test -run=XXX -bench=.
+// eg go test -run=100 -bench=BenchmarkDefault100
+
+func BenchmarkNoDefault1(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/noDefault/example1.yml")
+	}
+}
+
+func BenchmarkNoDefault5(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/noDefault/example5.yml")
+	}
+}
+
+func BenchmarkNoDefault10(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/noDefault/example10.yml")
+	}
+}
+
+func BenchmarkNoDefault100(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/noDefault/example100.yml")
+	}
+}
+func BenchmarkDefault1(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/default/example1.yml")
+	}
+}
+
+func BenchmarkDefault5(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/default/example5.yml")
+	}
+}
+
+func BenchmarkDefault10(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/default/example10.yml")
+	}
+}
+func BenchmarkDefault100(b *testing.B) {
+	for n := 0; n < b.N; n++ {
+		Parse("testData/default/example100.yml")
 	}
 }
