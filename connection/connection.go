@@ -1,8 +1,15 @@
 package connection
 
 import (
+	"crypto/md5"
+	"crypto/sha1"
+	"crypto/sha256"
+	"crypto/sha512"
 	"errors"
+	"hash"
+	"io"
 	"os"
+	"reflect"
 	"strings"
 	"time"
 
@@ -13,7 +20,7 @@ import (
 )
 
 // GetLog establishes the connection to the remote server and copys the log file to the local machine
-func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port, deleteLog string) {
+func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port, deleteLog, checksum string) {
 
 	log.Info("######Connection Information ##############", "\n",
 		"Host = "+host, "\n",
@@ -22,6 +29,7 @@ func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port
 		"Log Name = "+fileName, "\n",
 		"Download Directory = "+downloadDirectory, "\n",
 		"Connection Port = "+port, "\n",
+		"Checksum Algorithm = "+checksum, "\n",
 		"####################")
 
 	client, err := connect(host, user, password, port)
@@ -31,58 +39,90 @@ func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port
 	}
 	defer client.Close()
 
-	copyFile(logLocation, downloadDirectory, fileName, deleteLog, client)
+	copyFile(logLocation, downloadDirectory, fileName, deleteLog, checksum, client)
 
 }
 
-func copyFile(logLocation, downloadDirectory, filename, deleteLog string, client *ssh.Client) {
+func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string, client *ssh.Client) {
 	address := client.RemoteAddr()
 
 	sftp, err := sftp.NewClient(client)
 	if err != nil {
-		log.Fatal("Unable to start session")
+		log.Fatal("Unable to start session", err)
 	}
 	defer sftp.Close()
 
 	remoteLog, err := sftp.Open(logLocation + filename)
 	if err != nil {
-		log.Fatal("Unable to open log file on the remote host")
+		log.Fatal("Unable to open log file on the remote host", err)
 	}
 
 	defer remoteLog.Close()
 
 	localLog, err := os.Create(makeDownloadDirectory(downloadDirectory, address.String()) + filename)
 	if err != nil {
-		log.Fatal("Unable to close log file on the remote host")
+		log.Fatal("Unable to close log file on the remote host", err)
 
 	}
 
 	defer localLog.Close()
 	log.Info("Writing log to ", localLog.Name())
-	remoteLog.WriteTo(localLog)
 
-	rStat, rErr := remoteLog.Stat()
-	lStat, lErr := localLog.Stat()
-	if rErr != nil {
-		log.Fatal("Error getting information on remote file", rErr)
+	if _, err := io.Copy(localLog, remoteLog); err != nil {
+		log.Fatal("Error writing remote file to local file", err)
 	}
 
-	if lErr != nil {
-		log.Fatal("Error getting information on local file ", localLog)
-	}
-
-	if rStat.Size() != lStat.Size() {
-		log.Fatal("File sizes do not match after transfer")
+	if checksum != "" {
+		if err := calculateChecksums(remoteLog, localLog, "md5"); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	if deleteLog == "true" {
-		err := removeRemoteLog(remoteLog.Name(), sftp)
-		if err != nil {
+		if err := removeRemoteLog(remoteLog.Name(), sftp); err != nil {
 			log.Fatal(err)
 		}
 	}
 
 	log.Info("Writing log to ", localLog.Name(), " complete")
+}
+
+func calculateChecksums(remote, local io.Reader, algo string) error {
+	var remoteHash, localHash hash.Hash
+
+	switch algo {
+	case "sha512":
+		remoteHash = sha512.New()
+		localHash = sha512.New()
+	case "sha256":
+		remoteHash = sha256.New()
+		localHash = sha256.New()
+	case "sha1":
+		remoteHash = sha1.New()
+		localHash = sha1.New()
+	case "md5":
+		remoteHash = md5.New()
+		localHash = md5.New()
+	default:
+		return errors.New("Invalid Hashing Algo " + algo)
+	}
+
+	if _, err := io.Copy(remoteHash, remote); err != nil {
+		log.Error("Error calculating remote hash", err)
+		return errors.New("Error calculating remote hash")
+	}
+
+	if _, err := io.Copy(localHash, local); err != nil {
+		log.Error("Error calculating local hash", err)
+		return errors.New("Error calculating local hash ")
+	}
+
+	if reflect.DeepEqual(localHash.Sum(nil), remoteHash.Sum(nil)) {
+		log.Debugf("Remote Hash: %x\n", remoteHash)
+		log.Debugf("Local Hash: %x\n", localHash)
+		return errors.New("Checksums do not match")
+	}
+	return nil
 }
 
 // Relative to where the binary is ran.

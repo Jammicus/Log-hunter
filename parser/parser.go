@@ -21,6 +21,7 @@ type defaultInfo struct {
 	DownloadDirectory string `yaml:"downloadDirectory"`
 	LogName           string `yaml:"logName"`
 	DeleteLog         string `yaml:"deleteLog"`
+	Checksum          string `yaml:"checksum"`
 }
 
 type nodeInfo struct {
@@ -34,6 +35,7 @@ type nodeInfo struct {
 	DownloadDirectory string `yaml:"downloadDirectory"`
 	LogName           string `yaml:"logName"`
 	DeleteLog         string `yaml:"deleteLog"`
+	Checksum          string `yaml:"checksum"`
 }
 
 type Node struct {
@@ -46,6 +48,7 @@ type Node struct {
 	DownloadDirectory string
 	LogName           string
 	DeleteLog         string
+	Checksum          string
 }
 
 func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
@@ -58,6 +61,7 @@ func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
 		DownloadDirectory: isDefault(defaultList.DownloadDirectory, nonDefaultList.DownloadDirectory),
 		LogName:           isDefault(defaultList.LogName, nonDefaultList.LogName),
 		DeleteLog:         isDefault(defaultList.DeleteLog, nonDefaultList.DeleteLog),
+		Checksum:          isDefault(defaultList.Checksum, nonDefaultList.Checksum),
 	}
 
 	return node

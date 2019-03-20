@@ -5,3 +5,4 @@ nodes:
     port: 22
     logLocation: /home/vagrant/
     connection: ssh
+    checksum: sha256

@@ -5,6 +5,8 @@ defaults:
     downloadDirectory: "example-logs/"
     port: 22
     logName: test.txt
+    checksum: sha256
+
 
 
 nodes:

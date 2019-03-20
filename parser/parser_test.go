@@ -76,6 +76,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// Encrypted Password
 		Node{
@@ -88,6 +89,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default username
 		Node{
@@ -100,6 +102,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default port
 		Node{
@@ -112,6 +115,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default connection
 		Node{
@@ -124,6 +128,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default log location
 		Node{
@@ -136,6 +141,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default download directory
 		Node{
@@ -148,6 +154,7 @@ func TestGetNode(t *testing.T) {
 			"home/james/downloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default log name
 		Node{
@@ -160,6 +167,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"defaultLog.log",
 			"true",
+			"",
 		},
 		// default deletelog
 		Node{
@@ -172,6 +180,20 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"false",
+			"",
+		},
+		// default checksum
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+			"sha256",
 		},
 		// overriden username
 		Node{
@@ -184,6 +206,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overidden port
 		Node{
@@ -196,6 +219,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden connection
 		Node{
@@ -208,6 +232,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden log location
 		Node{
@@ -220,6 +245,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overridden download directory
 		Node{
@@ -232,6 +258,7 @@ func TestGetNode(t *testing.T) {
 			"download/overrides/directory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden log name
 		Node{
@@ -244,6 +271,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"overridenLog.overrides",
 			"true",
+			"",
 		},
 		// overriden deletelog
 		Node{
@@ -256,6 +284,20 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
+		},
+		// overriden checksum
+		Node{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+			"sha256",
 		},
 	}
 
@@ -274,6 +316,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// Encrypted Password
 		nodeInfo{
@@ -287,6 +330,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default username
 		nodeInfo{
@@ -300,6 +344,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default port
 		nodeInfo{
@@ -313,6 +358,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default connection
 		nodeInfo{
@@ -326,6 +372,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default log location
 		nodeInfo{
@@ -339,6 +386,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default download directory
 		nodeInfo{
@@ -352,6 +400,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// default log name
 		nodeInfo{
@@ -365,6 +414,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"",
 			"true",
+			"",
 		},
 		// default deletelog
 		nodeInfo{
@@ -377,6 +427,21 @@ func TestGetNode(t *testing.T) {
 			"var/testLogLocation",
 			"download/testDownloadDirectory",
 			"testLog.name",
+			"",
+			"",
+		},
+		// default checksum
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
 			"",
 		},
 		// overriden username
@@ -391,6 +456,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overidden port
 		nodeInfo{
@@ -404,6 +470,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden connection
 		nodeInfo{
@@ -417,6 +484,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden log location
 		nodeInfo{
@@ -430,6 +498,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overridden download directory
 		nodeInfo{
@@ -443,6 +512,7 @@ func TestGetNode(t *testing.T) {
 			"download/overrides/directory",
 			"testLog.name",
 			"true",
+			"",
 		},
 		// overriden log name
 		nodeInfo{
@@ -456,6 +526,7 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"overridenLog.overrides",
 			"true",
+			"",
 		},
 		// overriden deletelog
 		nodeInfo{
@@ -469,6 +540,21 @@ func TestGetNode(t *testing.T) {
 			"download/testDownloadDirectory",
 			"testLog.name",
 			"true",
+			"",
+		},
+		// overriden checksum
+		nodeInfo{
+			"testHost",
+			"testUser",
+			"testPassword",
+			"",
+			"22",
+			"testConnection",
+			"var/testLogLocation",
+			"download/testDownloadDirectory",
+			"testLog.name",
+			"true",
+			"sha256",
 		},
 	}
 
@@ -488,11 +574,13 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"",
+			"",
 		},
 		// default port
 		defaultInfo{
 			"",
 			"33",
+			"",
 			"",
 			"",
 			"",
@@ -508,6 +596,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"",
+			"",
 		},
 		// default log location
 		defaultInfo{
@@ -515,6 +604,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"/tmp/defaultLogLocation",
+			"",
 			"",
 			"",
 			"",
@@ -528,6 +618,7 @@ func TestGetNode(t *testing.T) {
 			"home/james/downloadDirectory",
 			"",
 			"",
+			"",
 		},
 		// default log name
 		defaultInfo{
@@ -537,6 +628,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"defaultLog.log",
+			"",
 			"",
 		},
 		// default deletelog
@@ -548,10 +640,23 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"false",
+			"",
+		},
+		// default checksum
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"sha256",
 		},
 		// overriden username
 		defaultInfo{
 			"defaultUser",
+			"",
 			"",
 			"",
 			"",
@@ -568,12 +673,14 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"",
+			"",
 		},
 		// overriden connection
 		defaultInfo{
 			"",
 			"",
 			"defaultConnection",
+			"",
 			"",
 			"",
 			"",
@@ -588,6 +695,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"",
+			"",
 		},
 		// overridden download directory
 		defaultInfo{
@@ -596,6 +704,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"home/james/downloadDirectory",
+			"",
 			"",
 			"",
 		},
@@ -608,6 +717,7 @@ func TestGetNode(t *testing.T) {
 			"",
 			"defaultLog.log",
 			"",
+			"",
 		},
 		// overriden deletelog
 		defaultInfo{
@@ -618,6 +728,18 @@ func TestGetNode(t *testing.T) {
 			"",
 			"",
 			"false",
+			"",
+		},
+		// overriden checksum
+		defaultInfo{
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"",
+			"defaultChecksum",
 		},
 	}
 
