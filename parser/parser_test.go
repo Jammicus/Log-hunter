@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"log-hunter/encryption"
 	"testing"
+
+	"github.com/Jammicus/log-hunter/encryption"
 )
 
 func TestGetDefault(t *testing.T) {

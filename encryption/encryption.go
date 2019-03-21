@@ -14,9 +14,8 @@ var Passphrase = "z4yH36a6zerhfE5427ZV"
 // This is equivilent to the following command:
 // echo -n "example" | openssl aes-256-cbc -pass pass:<yourPassPhase> -md sha256 -a -salt
 func Encrypt(password string) string {
-
 	o := openssl.New()
-	enc, err := o.EncryptBytes(Passphrase, []byte(password), openssl.DigestSHA256Sum)
+	enc, err := o.EncryptBytes(Passphrase, []byte(password))
 
 	if err != nil {
 		log.Fatal("Could not decrypt password", password)
@@ -30,7 +29,7 @@ func Encrypt(password string) string {
 func Decrypt(encryptedPass string) string {
 	o := openssl.New()
 
-	dec, err := o.DecryptBytes(Passphrase, []byte(encryptedPass), openssl.DigestSHA256Sum)
+	dec, err := o.DecryptBytes(Passphrase, []byte(encryptedPass))
 	if err != nil {
 		log.Fatal("Unable to decrypt password", encryptedPass, err)
 	}

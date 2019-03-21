@@ -2,9 +2,9 @@ package parser
 
 import (
 	"log"
-	"log-hunter/encryption"
 	"os"
 
+	"github.com/Jammicus/log-hunter/encryption"
 	yaml "gopkg.in/yaml.v2"
 )
 

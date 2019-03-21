@@ -3,13 +3,13 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log-hunter/connection"
-	"log-hunter/encryption"
-	"log-hunter/parser"
 	"os"
 	"strings"
 	"sync"
 
+	"github.com/Jammicus/log-hunter/connection"
+	"github.com/Jammicus/log-hunter/encryption"
+	"github.com/Jammicus/log-hunter/parser"
 	"github.com/sirupsen/logrus"
 	log "github.com/sirupsen/logrus"
 )
