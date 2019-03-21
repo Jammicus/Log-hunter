@@ -3,8 +3,8 @@ package encryption
 // Read https://dequeue.blogspot.com/2014/11/decrypting-something-encrypted-with.html
 
 import (
+	openssl "github.com/Luzifer/go-openssl"
 	log "github.com/sirupsen/logrus"
-	openssl "gopkg.in/Luzifer/go-openssl.v3"
 )
 
 var Passphrase = "z4yH36a6zerhfE5427ZV"
