@@ -13,33 +13,33 @@ import (
 	"strings"
 	"time"
 
+	"github.com/Jammicus/log-hunter/parser"
 	"github.com/pkg/sftp"
 	log "github.com/sirupsen/logrus"
-
 	"golang.org/x/crypto/ssh"
 )
 
 // GetLog establishes the connection to the remote server and copys the log file to the local machine
-func GetLog(host, user, password, logLocation, downloadDirectory, fileName, port, deleteLog, checksum string) {
+func GetLog(node parser.Node) {
 
 	log.Info("######Connection Information ##############", "\n",
-		"Host = "+host, "\n",
-		"User = "+user, "\n",
-		"Log Location =  "+logLocation, "\n",
-		"Log Name = "+fileName, "\n",
-		"Download Directory = "+downloadDirectory, "\n",
-		"Connection Port = "+port, "\n",
-		"Checksum Algorithm = "+checksum, "\n",
+		"Host = ", node.Host, "\n",
+		"Username = ", node.Username, "\n",
+		"Log Location =  ", node.LogLocation, "\n",
+		"Log Name = ", node.LogName, "\n",
+		"Download Directory = ", node.DownloadDirectory, "\n",
+		"Connection Port = ", node.Port, "\n",
+		"Checksum Algorithm = ", node.Checksum, "\n",
 		"####################")
 
-	client, err := connect(host, user, password, port)
+	client, err := connect(node.Host, node.Username, node.Password, node.Port)
 	if err != nil {
 		log.Fatal(err)
 
 	}
 	defer client.Close()
 
-	copyFile(logLocation, downloadDirectory, fileName, deleteLog, checksum, client)
+	copyFile(node.LogLocation, node.DownloadDirectory, node.LogName, node.DeleteLog, node.Checksum, client)
 
 }
 
