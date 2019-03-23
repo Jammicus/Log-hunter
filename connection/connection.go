@@ -72,7 +72,7 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum stri
 	}
 
 	if checksum != "" {
-		if err := calculateChecksums(remoteLog, localLog, "md5"); err != nil {
+		if err := verifyFileIntegrity(remoteLog, localLog, "md5"); err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -86,7 +86,7 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum stri
 	log.Info("Writing log to ", localLog.Name(), " complete")
 }
 
-func calculateChecksums(remote, local io.Reader, algo string) error {
+func verifyFileIntegrity(remote, local io.Reader, algo string) error {
 	var remoteHash, localHash hash.Hash
 
 	switch algo {
