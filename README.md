@@ -1,4 +1,4 @@
-# Log Hunter (WIP.)
+# Log Hunter (WIP)
 
 This programs aim is to to allow you to collect a series of logs from remote host and bring them to your local machine in a timely manner.
 Currently only supports connections over SSH. Plans to implement WinRM in the future.
@@ -11,14 +11,14 @@ Currently only supports connections over SSH. Plans to implement WinRM in the fu
 
 ```
 git clone https://github.com/Jammicus/log-hunter.git
-go get gopkg.in/yaml.v2 github.com/sirupsen/logrus gopkg.in/Luzifer/go-openssl.v3 github.com/pkg/sftp golang.org/x/crypto/ssh
+go build .
 ```
  
 ## Running the binary
 
 * Download Binary
 * Make sure binary is executable
-* If you are using encrypted passwords
+* If you are using encrypted passwords, make sure to pass in the passphrase 
 * Ensure node config is stored in a file called "hosts.yml"
 
 ```
@@ -30,6 +30,8 @@ go get gopkg.in/yaml.v2 github.com/sirupsen/logrus gopkg.in/Luzifer/go-openssl.v
 ```
 
 ## Encrypting passwords which you want to store in hosts.yml
+
+* Ensure you create a passphrase which is 20 characters long
 
 ```
 ./log-hunter -encrypt <password> -passphrase <hash>

@@ -62,7 +62,6 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum stri
 	localLog, err := os.Create(makeDownloadDirectory(downloadDirectory, address.String()) + filename)
 	if err != nil {
 		log.Fatal("Unable to close log file on the remote host", err)
-
 	}
 
 	defer localLog.Close()
