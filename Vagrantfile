@@ -33,6 +33,11 @@ Vagrant.configure("2") do |config|
     config.vm.box = "bento/centos-7"
     config.vm.hostname= "testbox4"
     config.vm.network "private_network", ip: "192.168.33.14" 
+    config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/me.pub"
+    config.vm.provision "shell", inline: <<-SHELL
+    echo "Adding Public key to authorized_keys"
+    cat /home/vagrant/.ssh/me.pub >> /home/vagrant/.ssh/authorized_keys
+    SHELL
   end
 
   config.vm.provision "shell", inline: <<-SHELL

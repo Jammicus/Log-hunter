@@ -11,6 +11,7 @@ var node = parser.Node{
 	"testHost",
 	"testUser",
 	"testPassword",
+	"/home/example/.ssh/id_rsa",
 	"22",
 	"testConnection",
 	"var/testLogLocation",

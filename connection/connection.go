@@ -8,6 +8,7 @@ import (
 	"errors"
 	"hash"
 	"io"
+	"io/ioutil"
 	"os"
 	"reflect"
 	"strings"
@@ -22,7 +23,7 @@ import (
 // GetLog establishes the connection to the remote server and copys the log file to the local machine
 func GetLog(node parser.Node) {
 
-	log.Info("######Connection Information ##############", "\n",
+	log.Info("###### Connection Information ##############", "\n",
 		"Host = ", node.Host, "\n",
 		"Username = ", node.Username, "\n",
 		"Log Location =  ", node.LogLocation, "\n",
@@ -30,11 +31,24 @@ func GetLog(node parser.Node) {
 		"Download Directory = ", node.DownloadDirectory, "\n",
 		"Connection Port = ", node.Port, "\n",
 		"Checksum Algorithm = ", node.Checksum, "\n",
-		"####################")
+		"#############",
+	)
 
-	client, err := connect(node.Host, node.Username, node.Password, node.Port)
+	var client *ssh.Client
+	var err error
+	switch {
+	case node.KeyLocation != "":
+		client, err = connectSSHKey(node.Host, node.Username, node.KeyLocation, node.Port)
+
+	case node.Password != "":
+		client, err = connectSSHPass(node.Host, node.Username, node.Password, node.Port)
+
+	default:
+		log.Fatal("No Authentication method found. Terminating")
+	}
+
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("Unable to establish connection:", err)
 
 	}
 	defer client.Close()
@@ -149,11 +163,50 @@ func removeRemoteLog(logLocation string, client *sftp.Client) error {
 	return nil
 }
 
-func connect(host, user, password, port string) (*ssh.Client, error) {
+func connectSSHPass(host, user, password, port string) (*ssh.Client, error) {
+
 	config := &ssh.ClientConfig{
 		User: user,
 		Auth: []ssh.AuthMethod{
 			ssh.Password(password),
+		},
+
+		HostKeyCallback: ssh.InsecureIgnoreHostKey(),
+
+		HostKeyAlgorithms: []string{
+			ssh.KeyAlgoRSA,
+			ssh.KeyAlgoDSA,
+			ssh.KeyAlgoECDSA256,
+			ssh.KeyAlgoECDSA384,
+			ssh.KeyAlgoECDSA521,
+			ssh.KeyAlgoED25519,
+		},
+		Timeout: 30 * time.Second,
+	}
+
+	client, err := ssh.Dial("tcp", host+":"+port, config)
+	if err != nil {
+		return nil, errors.New("Unable to establish SSH Connection to " + host)
+	}
+
+	return client, nil
+}
+
+func connectSSHKey(host, user, keyLocation, port string) (*ssh.Client, error) {
+	key, err := ioutil.ReadFile(keyLocation)
+	if err != nil {
+		log.Fatalf("unable to read private key: %v", err)
+	}
+
+	signer, err := ssh.ParsePrivateKey(key)
+	if err != nil {
+		log.Fatalf("unable to parse private key: %v", err)
+	}
+
+	config := &ssh.ClientConfig{
+		User: user,
+		Auth: []ssh.AuthMethod{
+			ssh.PublicKeys(signer),
 		},
 
 		HostKeyCallback: ssh.InsecureIgnoreHostKey(),

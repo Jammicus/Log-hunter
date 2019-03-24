@@ -15,6 +15,7 @@ type config struct {
 
 type defaultInfo struct {
 	Username          string `yaml:"username"`
+	KeyLocation       string `yaml:"keyLocation"`
 	Port              string `yaml:"port"`
 	Connection        string `yaml:"connection"`
 	LogLocation       string `yaml:"logLocation"`
@@ -29,6 +30,7 @@ type nodeInfo struct {
 	Username          string `yaml:"username"`
 	Password          string `yaml:"password"`
 	EncryptedPassword string `yaml:"encryptedPassword"`
+	KeyLocation       string `yaml:"keyLocation"`
 	Port              string `yaml:"port"`
 	Connection        string `yaml:"connection"`
 	LogLocation       string `yaml:"logLocation"`
@@ -42,6 +44,7 @@ type Node struct {
 	Host              string
 	Username          string
 	Password          string
+	KeyLocation       string
 	Port              string
 	Connection        string
 	LogLocation       string
@@ -55,6 +58,7 @@ func getNode(defaultList defaultInfo, nonDefaultList nodeInfo) Node {
 	node := Node{Host: nonDefaultList.Host,
 		Username:          isDefault(defaultList.Username, nonDefaultList.Username),
 		Password:          passwordHandler(nonDefaultList.EncryptedPassword, nonDefaultList.Password),
+		KeyLocation:       isDefault(defaultList.KeyLocation, nonDefaultList.KeyLocation),
 		Port:              isDefault(defaultList.Port, nonDefaultList.Port),
 		Connection:        isDefault(defaultList.Connection, nonDefaultList.Connection),
 		LogLocation:       isDefault(defaultList.LogLocation, nonDefaultList.LogLocation),
