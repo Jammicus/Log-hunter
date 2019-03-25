@@ -11,8 +11,11 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
+
+	"github.com/masterzen/winrm"
 
 	"github.com/Jammicus/log-hunter/parser"
 	"github.com/pkg/sftp"
@@ -59,13 +62,12 @@ func GetLog(node parser.Node) {
 
 func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string, client *ssh.Client) {
 	address := client.RemoteAddr()
-
 	sftp, err := sftp.NewClient(client)
+
 	if err != nil {
 		log.Fatal("Unable to start session", err)
 	}
 	defer sftp.Close()
-
 	remoteLog, err := sftp.Open(logLocation + filename)
 	if err != nil {
 		log.Fatal("Unable to open log file on the remote host", err)
@@ -228,4 +230,12 @@ func connectSSHKey(host, user, keyLocation, port string) (*ssh.Client, error) {
 	}
 
 	return client, nil
+}
+
+func connectWinRM(host, user, password, port string) (*winrm.Client, error) {
+	p, _ := strconv.Atoi(port)
+	endpoint := winrm.NewEndpoint(host, p, false, false, nil, nil, nil, 0)
+	client, err := winrm.NewClient(endpoint, user, password)
+
+	return client, err
 }
