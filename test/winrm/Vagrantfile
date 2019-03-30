@@ -18,6 +18,8 @@ Vagrant.configure(2) do |config|
   config.winrm.password = "vagrant"
   config.vm.network :forwarded_port, guest: 3389, host: 3389, id: "rdp", auto_correct:true
   config.vm.network :forwarded_port, guest: 5985, host: 5985, id: "rdp", auto_correct:true
+  config.vm.network "private_network", ip: "192.168.33.20"
+
 
   config.vm.provider :virtualbox do |vm|
     vm.gui = true
@@ -32,7 +34,13 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     choco upgrade firefox googlechrome -y
-    
+    echo "generating random 1gb size file"
+   $bytes = 1GB
+
+  [System.Security.Cryptography.RNGCryptoServiceProvider] $rng = New-Object System.Security.Cryptography.RNGCryptoServiceProvider
+  $rndbytes = New-Object byte[] $bytes
+  $rng.GetBytes($rndbytes)
+  [System.IO.File]::WriteAllBytes("C:\\Users\\vagrant\\Desktop\\test.txt", $rndbytes)
   SHELL
 
 end
