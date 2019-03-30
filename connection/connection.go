@@ -11,14 +11,31 @@ import (
 	"io/ioutil"
 	"os"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 
 	"github.com/Jammicus/log-hunter/parser"
+	"github.com/masterzen/winrm"
 	"github.com/pkg/sftp"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/ssh"
 )
+
+type Connection interface {
+	copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string)
+	removeRemoteLog(logLocation string) error
+	connect(parser.Node) error
+}
+
+type sshConnection struct {
+	client *ssh.Client
+	sftp   *sftp.Client
+}
+
+type winrmConnection struct {
+	client *winrm.Client
+}
 
 // GetLog establishes the connection to the remote server and copys the log file to the local machine
 func GetLog(node parser.Node) {
@@ -34,39 +51,102 @@ func GetLog(node parser.Node) {
 		"#############",
 	)
 
-	var client *ssh.Client
+	if strings.ToLower(node.Connection) == "ssh" {
+		var ssh sshConnection
+		var err error
+
+		err = ssh.connect(node)
+
+		if err != nil {
+			log.Fatal("Unable to establish connection:", err)
+
+		}
+		defer ssh.client.Close()
+
+		ssh.copyFile(node.LogLocation, node.DownloadDirectory, node.LogName, node.DeleteLog, node.Checksum)
+	}
+
+	if strings.ToLower(node.Connection) == "winrm" {
+		var winrm winrmConnection
+		var err error
+		err = winrm.connect(node)
+
+		if err != nil {
+			log.Fatal("Unable to establish connection:", err)
+		}
+	}
+}
+
+func (ssh *sshConnection) connect(node parser.Node) error {
 	var err error
+
 	switch {
 	case node.KeyLocation != "":
-		client, err = connectSSHKey(node.Host, node.Username, node.KeyLocation, node.Port)
+		ssh.client, err = connectSSHKey(node.Host, node.Username, node.KeyLocation, node.Port)
 
 	case node.Password != "":
-		client, err = connectSSHPass(node.Host, node.Username, node.Password, node.Port)
+		ssh.client, err = connectSSHPass(node.Host, node.Username, node.Password, node.Port)
 
 	default:
 		log.Fatal("No Authentication method found. Terminating")
 	}
 
-	if err != nil {
-		log.Fatal("Unable to establish connection:", err)
-
-	}
-	defer client.Close()
-
-	copyFile(node.LogLocation, node.DownloadDirectory, node.LogName, node.DeleteLog, node.Checksum, client)
-
+	return err
 }
 
-func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string, client *ssh.Client) {
-	address := client.RemoteAddr()
+func (win *winrmConnection) connect(node parser.Node) error {
+	var err error
+	port, _ := strconv.Atoi(node.Port)
 
-	sftp, err := sftp.NewClient(client)
+	endpoint := winrm.NewEndpoint(node.Host, port, false, false, nil, nil, nil, 0)
+	win.client, err = winrm.NewClient(endpoint, node.Username, node.Password)
+
+	return err
+}
+
+func (win *winrmConnection) copyFile(logLocation, downloadDirectory, filename, deletelog, checksum string) {
+	shell, err := win.client.CreateShell()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var cmd *winrm.Command
+	cmd, err = shell.Execute("type", logLocation, filename)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	go io.Copy(os.Stdout, cmd.Stdout)
+
+	cmd.Wait()
+	shell.Close()
+}
+
+func (win *winrmConnection) removeRemoteLog(logLocation string) error {
+	shell, err := win.client.CreateShell()
+	if err != nil {
+		log.Fatal(err)
+	}
+	var cmd *winrm.Command
+	cmd, err = shell.Execute("del", logLocation)
+
+	go io.Copy(os.Stdout, cmd.Stdout)
+
+	cmd.Wait()
+	shell.Close()
+	return err
+}
+
+func (ssh *sshConnection) copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string) {
+	var err error
+
+	address := ssh.client.RemoteAddr()
+	ssh.sftp, err = sftp.NewClient(ssh.client)
 	if err != nil {
 		log.Fatal("Unable to start session", err)
 	}
-	defer sftp.Close()
+	defer ssh.sftp.Close()
 
-	remoteLog, err := sftp.Open(logLocation + filename)
+	remoteLog, err := ssh.sftp.Open(logLocation + filename)
 	if err != nil {
 		log.Fatal("Unable to open log file on the remote host", err)
 	}
@@ -92,7 +172,7 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum stri
 	}
 
 	if deleteLog == "true" {
-		if err := removeRemoteLog(remoteLog.Name(), sftp); err != nil {
+		if err := ssh.removeRemoteLog(remoteLog.Name()); err != nil {
 			log.Fatal(err)
 		}
 	}
@@ -154,8 +234,8 @@ func makeDownloadDirectory(downloadDirectory, address string) string {
 	return downloadDirectory
 }
 
-func removeRemoteLog(logLocation string, client *sftp.Client) error {
-	err := client.Remove(logLocation)
+func (ssh *sshConnection) removeRemoteLog(logLocation string) error {
+	err := ssh.sftp.Remove(logLocation)
 	if err != nil {
 		return errors.New("Unable to delete remote file " + logLocation)
 	}
