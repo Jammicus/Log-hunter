@@ -86,7 +86,7 @@ func copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum stri
 	}
 
 	if checksum != "" {
-		if err := verifyFileIntegrity(remoteLog, localLog, "md5"); err != nil {
+		if err := verifyFileIntegrity(remoteLog, localLog, checksum); err != nil {
 			log.Fatal(err)
 		}
 	}
