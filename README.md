@@ -1,7 +1,7 @@
-# Log Hunter (WIP)
+# Log Hunter 
 
 This programs aim is to to allow you to collect a series of logs from remote host and bring them to your local machine in a timely manner.
-Currently only supports connections over SSH. Plans to implement WinRM in the future.
+Currently only supports connections over SSH.
 
 ## Prequisites
 
@@ -61,3 +61,6 @@ go test -bench=BenchmarkDefault100
 vagrant up
 go run main.go
 ```
+## The Future
+
+In the future we have plans to allow WinRM connections.
