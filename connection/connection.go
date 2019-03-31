@@ -32,7 +32,8 @@ type sshConnection struct {
 }
 
 type winrmConnection struct {
-	client *winrm.Client
+	client   *winrm.Client
+	endpoint *winrm.Endpoint
 }
 
 // GetLog establishes the connection to the remote server and copys the log file to the local machine
@@ -100,8 +101,8 @@ func (win *winrmConnection) connect(node parser.Node) error {
 	var err error
 	port, _ := strconv.Atoi(node.Port)
 
-	endpoint := winrm.NewEndpoint(node.Host, port, false, false, nil, nil, nil, 0)
-	win.client, err = winrm.NewClient(endpoint, node.Username, node.Password)
+	win.endpoint = winrm.NewEndpoint(node.Host, port, false, false, nil, nil, nil, 0)
+	win.client, err = winrm.NewClient(win.endpoint, node.Username, node.Password)
 
 	return err
 }
@@ -112,12 +113,15 @@ func (win *winrmConnection) copyFile(logLocation, downloadDirectory, filename, d
 		log.Fatal(err)
 	}
 	var cmd *winrm.Command
-	cmd, err = shell.Execute("type", logLocation, filename)
+	cmd, err = shell.Execute("type", logLocation+filename)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	go io.Copy(os.Stdout, cmd.Stdout)
+	addr := win.endpoint.Host + ":" + strconv.Itoa(win.endpoint.Port)
+	localLog, err := os.Create(makeDownloadDirectory(downloadDirectory, addr) + filename)
+	buf := make([]byte, 24)
+	go io.CopyBuffer(localLog, cmd.Stdout, buf)
 
 	cmd.Wait()
 	shell.Close()
