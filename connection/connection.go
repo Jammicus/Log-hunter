@@ -22,10 +22,8 @@ import (
 	"golang.org/x/crypto/ssh"
 )
 
-type Connection interface {
+type transfer interface {
 	copyFile(logLocation, downloadDirectory, filename, deleteLog, checksum string)
-	removeRemoteLog(logLocation string) error
-	connect(parser.Node) error
 }
 
 type sshConnection struct {
@@ -62,8 +60,7 @@ func GetLog(node parser.Node) {
 
 		}
 		defer ssh.client.Close()
-
-		ssh.copyFile(node.LogLocation, node.DownloadDirectory, node.LogName, node.DeleteLog, node.Checksum)
+		getLog(node, &ssh)
 	}
 
 	if strings.ToLower(node.Connection) == "winrm" {
@@ -74,7 +71,12 @@ func GetLog(node parser.Node) {
 		if err != nil {
 			log.Fatal("Unable to establish connection:", err)
 		}
+		getLog(node, &winrm)
 	}
+}
+
+func getLog(node parser.Node, t transfer) {
+	t.copyFile(node.LogLocation, node.DownloadDirectory, node.LogName, node.DeleteLog, node.Checksum)
 }
 
 func (ssh *sshConnection) connect(node parser.Node) error {
