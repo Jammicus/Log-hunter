@@ -90,6 +90,8 @@ func passwordHandler(encrypted, nonEncrypted string) string {
 // Takes a path to the config file
 // Returns a list of nodes.
 func Parse(hostFile string) []Node {
+	var config config
+
 	f, err := os.Open(hostFile)
 	if err != nil {
 		log.Fatal("Unable to open hosts file", err)
@@ -97,7 +99,6 @@ func Parse(hostFile string) []Node {
 	defer f.Close()
 
 	dec := yaml.NewDecoder(f)
-	var config config
 	err = dec.Decode(&config)
 	if err != nil {
 		log.Fatal("Unable to decode Yaml config", err)

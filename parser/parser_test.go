@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/Jammicus/log-hunter/encryption"
@@ -910,8 +911,8 @@ func TestParseSize(t *testing.T) {
 	for _, test := range testcases {
 		if item := Parse(test.file); len(item) != test.numOfNodesExpected {
 			t.Error("Returned array of nodes is not the expected size" + "\n" +
-				"Returned: " + string(len(item)) + "\n" +
-				"expected: " + string(test.numOfNodesExpected))
+				"Returned: " + fmt.Sprint(len(item)) + "\n" +
+				"expected: " + fmt.Sprint(test.numOfNodesExpected))
 		}
 	}
 }
