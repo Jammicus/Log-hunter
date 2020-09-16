@@ -19,6 +19,6 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Build Code
-      run: go build cmd/jobs.go
+      run: go build main.go
     - name: Test
       run: go test ./... -v
